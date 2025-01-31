@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import {Test} from "forge-std/Test.sol";
 import {TargetFunctions} from "./TargetFunctions.sol";
 import {FoundryAsserts} from "@chimera/FoundryAsserts.sol";
-import "forge-std/console2.sol";
+import "forge-std/console.sol";
 
 contract CryticToFoundry is Test, TargetFunctions, FoundryAsserts {
     function setUp() public {
@@ -12,6 +12,7 @@ contract CryticToFoundry is Test, TargetFunctions, FoundryAsserts {
     }
 
     function test_crytic() public {
-        // TODO: add failing property tests here for debugging
+        switch_token(1);
+        console.log(block.timestamp);
     }
 }

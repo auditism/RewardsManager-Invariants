@@ -5,18 +5,18 @@ import {Setup} from "./Setup.sol";
 
 // ghost variables for tracking state variable values before and after function calls
 abstract contract BeforeAfter is Setup {
-    struct Vars {
-        uint256 unused;
-    }
+// struct Vars {
+//     uint256 unused;
+// }
 
-    Vars internal _before;
-    Vars internal _after;
+// Vars internal _before;
+// Vars internal _after;
 
-    function __before() internal {
+// function __before() internal {
 
-    }
+// }
 
-    function __after() internal {
+// function __after() internal {
 
-    }
+// }
 }

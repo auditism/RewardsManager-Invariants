@@ -4,6 +4,11 @@ out = "out"
 libs = ["lib"]
 no_match_contract = "CryticTester"
 
-optimizer=false ## Required by Crytic-Comile
-
+#optimizer=false ## Required by Crytic-Comile
+optimizer = false
+optimizer_runs = 999999 
+#auto_detect_solc = true
+solc_version = "0.8.24"
+#solc_version = "0.6.11"
+#solc_version = "0.4.17"
 # See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options

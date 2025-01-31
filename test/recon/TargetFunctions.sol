@@ -12,4 +12,4 @@ import {CT_addRewards_acrrue} from "./targets/clampedTargets/CT_addRewards_acrru
 import {CT_claim} from "./targets/clampedTargets/CT_claim.sol";
 import {RewardsManager} from "src/RewardsManager.sol";
 
-abstract contract TargetFunctions is Switches, CT_addRewards_acrrue, CT_claim {}
+abstract contract TargetFunctions is CT_addRewards_acrrue, CT_claim {}

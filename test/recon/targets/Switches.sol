@@ -6,17 +6,22 @@ import {BaseTargetFunctions} from "@chimera/BaseTargetFunctions.sol";
 import {Properties} from "../Properties.sol";
 import {vm} from "@chimera/Hevm.sol";
 import {IMint} from "../mocks/IMint.sol";
+import {IRebasor} from "../mocks/IRebasor.sol";
 import {TargetHelper} from "./TargetHelper.sol";
+import {console} from "forge-std/console.sol";
 
 abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
     //probably need a function to warp time with the fuzza block.timestap + amount
 
-    function addHalfEpoch() public {
+    function pushEpoch() public {
         if (timestamp < 3.156e9) {
             //@NOTE 100 years
-            timestamp += (604800 / 2); //NOTE add half epoch
+            timestamp += (604800); //NOTE  epoch
             vm.warp(timestamp);
+
+            //  should also call switchepochs
         }
+        // switch_epochs();
     }
 
     function switch_vault(uint256 index) public {
@@ -37,9 +42,15 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
     }
 
     function switch_epochs(uint256 epochStart, uint256 epochEnd, uint256 upcomingEpoch) public {
-        (epochEnd, epochStart) = return_epoch_start_end(epochEnd, epochStart);
+        (currentEpochEnd, currentEpochStart) = return_epoch_start_end(epochEnd, epochStart);
         currentUpcomingEpoch = return_upcomingEpoch(upcomingEpoch);
-        currentEpochStart = epochStart;
-        currentEpochEnd = epochEnd;
+    }
+
+    function rebaseUp(uint256 amt) public {
+        IRebasor(tokens[6]).rebaseUp(address(rewardsManager), amt);
+    }
+
+    function rebaseDown(uint256 amt) public {
+        IRebasor(tokens[6]).rebaseDown(address(rewardsManager), amt);
     }
 }

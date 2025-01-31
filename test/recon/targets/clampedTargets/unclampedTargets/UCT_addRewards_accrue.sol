@@ -26,16 +26,16 @@ abstract contract UCT_addRewards_accrue is BaseTargetFunctions, Properties {
     //ADDBULK
 
     function rewardsManager_addBulkRewards(uint256 epochStart, uint256 epochEnd, uint256[] memory amounts) public {
-        rewardsManager.addBulkRewards(epochStart, epochEnd, currentVault, currentUser, amounts);
+        rewardsManager.addBulkRewards(epochStart, epochEnd, currentVault, currentToken, amounts);
     }
 
     function rewardsManager_addBulkRewardsLinearly(uint256 epochStart, uint256 epochEnd, uint256 total) public {
-        rewardsManager.addBulkRewardsLinearly(epochStart, epochEnd, currentVault, currentUser, total);
+        rewardsManager.addBulkRewardsLinearly(epochStart, epochEnd, currentVault, currentToken, total);
     }
 
     //ADD REWARDS
 
     function rewardsManager_addReward(uint256 epochId, uint256 amount) public {
-        rewardsManager.addReward(epochId, currentVault, currentUser, amount); //NOTE Epoch must be bigger
+        rewardsManager.addReward(epochId, currentVault, currentToken, amount); //NOTE Epoch must be bigger
     }
 }

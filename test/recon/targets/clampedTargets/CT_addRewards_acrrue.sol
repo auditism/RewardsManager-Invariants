@@ -8,8 +8,10 @@ import {RewardsManager} from "src/RewardsManager.sol";
 import {vm} from "@chimera/Hevm.sol";
 import {TargetHelper} from "../TargetHelper.sol";
 import {UCT_addRewards_accrue} from "./unclampedTargets/UCT_addRewards_accrue.sol";
+import {Switches} from "../Switches.sol";
+import {console} from "forge-std/console.sol";
 
-abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper {
+abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, Switches {
     //NOTE add state var for epochs
 
     function rewardsManager_clamped_notifyTransfer(uint256 amt) public {
@@ -30,20 +32,14 @@ abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper {
     }
 
     function rewardsManager_clamped_addBulkRewards(uint256 epochStart) public {
-        
-        
-       (uint256 epochStart, uint256 epochEnd) = _return_upcoming_EpochStartEnd(epochStart);
-
-        uint256 totalEpochs = epochEnd - epochStart + 1;
-
+        (uint256 epochStart, uint256 epochEnd) = _return_upcoming_EpochStartEnd(epochStart);
+        uint256 totalEpochs = (epochEnd - epochStart) + 1; //@note this reverts
         uint256[] memory amounts = generateAmounts(totalEpochs); //NOTE max 1000-1 eth
 
         rewardsManager_addBulkRewards(epochStart, epochEnd, amounts);
     }
 
-    function rewardsManager_clamped_addBulkRewardsLinearly(uint256 epochStart, uint256 total)
-        public
-    {
+    function rewardsManager_clamped_addBulkRewardsLinearly(uint256 epochStart, uint256 total) public {
         (uint256 epochStart, uint256 epochEnd) = _return_upcoming_EpochStartEnd(epochStart);
 
         rewardsManager_addBulkRewardsLinearly(epochStart, epochEnd, total);

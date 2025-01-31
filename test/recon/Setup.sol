@@ -4,6 +4,7 @@ pragma solidity ^0.8.0;
 import {BaseSetup} from "@chimera/BaseSetup.sol";
 import {RewardsManager} from "src/RewardsManager.sol";
 import {OZ} from "./mocks/OZ.sol";
+import {FoT} from "./mocks/FoT.sol";
 import {Solady} from "./mocks/Solady.sol";
 import {Solmate} from "./mocks/Solmate.sol";
 import {USDT} from "./mocks/USDT.sol";
@@ -18,6 +19,8 @@ abstract contract Setup is BaseSetup {
     Solmate solmate;
     Solady solady;
     OZ oz;
+    FoT fot;
+
     //
 
     //In Use variables
@@ -30,7 +33,6 @@ abstract contract Setup is BaseSetup {
     uint256 currentEpochStart;
     uint256 currentEpochEnd;
     uint256 currentUpcomingEpoch;
-    
 
     //
     address[] users;
@@ -72,13 +74,15 @@ abstract contract Setup is BaseSetup {
         solmate = new Solmate();
         solady = new Solady();
         oz = new OZ();
-        // steth = new stETH();
+        steth = new stETH();
+        fot = new FoT();
 
         tokens.push(address(usdt));
         tokens.push(address(solmate));
         tokens.push(address(solady));
         tokens.push(address(oz));
-        // tokens.push(address(stETH));
+        tokens.push(address(fot));
+        tokens.push(address(steth));
     }
 }
 

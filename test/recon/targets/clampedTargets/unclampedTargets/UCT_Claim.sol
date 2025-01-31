@@ -25,10 +25,6 @@ abstract contract UCT_Claim is BaseTargetFunctions, Properties, TargetHelper {
         rewardsManager.claimRewardReferenceEmitting(epochId, currentVault, currentToken, currentUser);
     }
 
-    function rewardsManager_claimRewards(uint256[] memory epochsToClaim) public {
-        rewardsManager.claimRewards(epochsToClaim, vaults, tokens, users);
-    }
-
     function rewardsManager_reap(RewardsManager.OptimizedClaimParams memory params) public {
         rewardsManager.reap(params);
     }

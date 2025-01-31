@@ -14,6 +14,17 @@ abstract contract CT_claim is UCT_Claim {
         rewardsManager_claimReward(currentEpochEnd);
     }
 
+    function rewardsManager_claimRewardS(uint256 amt) public {
+        (
+            uint256[] memory epochs,
+            address[] memory selectedUsers,
+            address[] memory claimTokens,
+            address[] memory claimVault
+        ) = _generateClaimInput(amt);
+
+        rewardsManager.claimRewards(epochs, selectedUsers, claimTokens, claimVault);
+    }
+
     function rewardsManager_clamped_claimBulkTokensOverMultipleEpochs() public {
         rewardsManager_claimBulkTokensOverMultipleEpochs(currentEpochStart, currentEpochEnd);
     }

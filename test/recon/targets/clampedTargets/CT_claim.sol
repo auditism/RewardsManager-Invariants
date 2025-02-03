@@ -42,7 +42,7 @@ abstract contract CT_claim is UCT_Claim {
         rewardsManager_reap(parameters);
     }
 
-    function rewardsManager_tear() public {
+    function rewardsManager_clamped_tear() public {
         RewardsManager.OptimizedClaimParams memory parameters = return_OptimizedClaimParams();
         rewardsManager_tear(parameters);
     }

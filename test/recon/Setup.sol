@@ -30,9 +30,9 @@ abstract contract Setup is BaseSetup {
     uint256 timestamp;
 
     //EPOCHS in Use
-    uint256 currentEpochStart;
-    uint256 currentEpochEnd;
-    uint256 currentUpcomingEpoch;
+    uint256 currentEpochStart; // NOTE epochStart <= epochEnd < currentEpoch | only used once, is it necessary it to have as state v?
+    uint256 currentEpochEnd; // NOTE epochEnd < currentEpoch
+    uint256 currentUpcomingEpoch; // NOTE currentUpcomingEpoch >= currentEpoch
 
     //
     address[] users;
@@ -85,11 +85,3 @@ abstract contract Setup is BaseSetup {
         tokens.push(address(steth));
     }
 }
-
-// OPTIMIZED PARAMS
-// RewardsManager.OptimizedClaimParams currentParams {
-//     uint256 epochStart,
-//     uint256 epochEnd,
-//     currentVault,
-//     tokens;
-// }

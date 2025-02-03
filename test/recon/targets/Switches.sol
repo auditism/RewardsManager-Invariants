@@ -14,6 +14,7 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
     //probably need a function to warp time with the fuzza block.timestap + amount
 
     function pushEpoch() public {
+        //NOTE is this necessary ?
         if (timestamp < 3.156e9) {
             //@NOTE 100 years
             timestamp += (604800); //NOTE  epoch
@@ -42,15 +43,15 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
     }
 
     function switch_epochs(uint256 epochStart, uint256 epochEnd, uint256 upcomingEpoch) public {
-        (currentEpochEnd, currentEpochStart) = return_epoch_start_end(epochEnd, epochStart);
-        currentUpcomingEpoch = return_upcomingEpoch(upcomingEpoch);
+        (currentEpochEnd, currentEpochStart) = _return_epoch_start_end(epochEnd, epochStart);
+        currentUpcomingEpoch = _return_upcomingEpoch(upcomingEpoch);
     }
 
     function rebaseUp(uint256 amt) public {
-        IRebasor(tokens[6]).rebaseUp(address(rewardsManager), amt);
+        IRebasor(tokens[5]).rebaseUp(address(rewardsManager), amt);
     }
 
     function rebaseDown(uint256 amt) public {
-        IRebasor(tokens[6]).rebaseDown(address(rewardsManager), amt);
+        IRebasor(tokens[5]).rebaseDown(address(rewardsManager), amt);
     }
 }

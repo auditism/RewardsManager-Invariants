@@ -1086,6 +1086,7 @@ contract RewardsManager is ReentrancyGuard {
             unchecked {
                 info.userEpochTotalPoints = info.pointsInStorage + info.balance * info.timeLeftToAccrue;
             }
+            //NOTE UNCHECKED MATH
         }
     }
 

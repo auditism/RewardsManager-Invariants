@@ -33,8 +33,8 @@ abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, S
 
     function rewardsManager_clamped_addBulkRewards(uint256 epochStart) public {
         (uint256 epochStart, uint256 epochEnd) = _return_upcoming_EpochStartEnd(epochStart);
-        uint256 totalEpochs = (epochEnd - epochStart) + 1; //@note this reverts
-        uint256[] memory amounts = generateAmounts(totalEpochs); //NOTE max 1000-1 eth
+        uint256 totalEpochs = (epochEnd - epochStart) + 1;
+        uint256[] memory amounts = generateAmounts(totalEpochs); //NOTE max (1000-1) eth
 
         rewardsManager_addBulkRewards(epochStart, epochEnd, amounts);
     }
@@ -44,4 +44,12 @@ abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, S
 
         rewardsManager_addBulkRewardsLinearly(epochStart, epochEnd, total);
     }
+
+    // function rewardsManager_getVaultNextEpochInfo() public {
+    //     //ended epochs
+    //     RewardsManager.UserInfo memory info = rewardsManager.getUserNextEpochInfo(currentEpochEnd, currentVault, currentUser, 0);
+    //     uint256 uETP = info.userEpochTotalPoints;
+    //     t(uETP == 0, 'QnD canary');
+
+    // }
 }

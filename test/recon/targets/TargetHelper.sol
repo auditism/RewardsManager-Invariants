@@ -9,23 +9,24 @@ import {console} from "forge-std/console.sol";
 abstract contract TargetHelper is BaseTargetFunctions, Properties {
     function upToThisEpoch(uint256 epoch) internal returns (uint256) {
         return epoch % rewardsManager.currentEpoch() + 1;
-    }
+    } // where do I use this ? 
 
-    function endedEpochs(uint256 epoch) internal returns (uint256) {
+    function _endedEpochs(uint256 epoch) internal returns (uint256) {
         return epoch % rewardsManager.currentEpoch();
     }
-
-    function return_upcomingEpoch(uint256 epoch) internal returns (uint256) {
+    //NOTE returns upcommingEpoch >= Epoch
+    function _return_upcomingEpoch(uint256 epoch) internal returns (uint256) {
         epoch = epoch % 5000;
         uint256 currentEpoch = rewardsManager.currentEpoch();
         if (epoch < currentEpoch) {
             return epoch + currentEpoch;
         } else {
-            return epoch; // Or another logic for this case
+            return epoch; 
         }
     }
 
-    function generateAmounts(uint256 length) internal view returns (uint256[] memory) {
+    //NOTE returns array of length with random inputs < 1000 eth
+    function _generateAmounts(uint256 length) internal view returns (uint256[] memory) {
         uint256[] memory _amounts = new uint256[](length);
 
         for (uint256 i = 0; i < length; i++) {
@@ -34,26 +35,28 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
         return _amounts;
     }
 
-    function return_epoch_start_end(uint256 epochEnd, uint256 epochStart) internal returns (uint256, uint256) {
-        epochEnd = endedEpochs(epochEnd);
+    //NOTE returns epochStart <= epochEnd < currentEpoch
+    function _return_epoch_start_end(uint256 epochEnd, uint256 epochStart) internal returns (uint256, uint256) {
+        epochEnd = _endedEpochs(epochEnd);
         epochStart %= epochEnd + 1;
         return (epochEnd, epochStart);
     }
 
-    function return_OptimizedClaimParams() public returns (RewardsManager.OptimizedClaimParams memory) {
-        RewardsManager.OptimizedClaimParams memory parameter = RewardsManager.OptimizedClaimParams({
-            epochStart: currentEpochStart,
+    function _return_OptimizedClaimParams() public returns (RewardsManager.OptimizedClaimParams memory parameter) {
+        _getCurrentEpochStart();
+        parameter = RewardsManager.OptimizedClaimParams({
+            epochStart: _getCurrentEpochStart(),
             epochEnd: currentEpochEnd,
             vault: currentVault,
             tokens: tokens
         });
+        return parameter;
     }
-    //NOTE We want it to return currentEpoch >= epochStart >= epochEnd
 
+    //NOTE return currentEpoch >= epochStart >= epochEnd
     function _return_upcoming_EpochStartEnd(uint256 epochStart) internal returns (uint256, uint256 epochEnd) {
-        uint256 currentEpoch = rewardsManager.currentEpoch(); // 4
-        epochEnd = currentUpcomingEpoch; // 5
-            // epochStart = 6; // 6
+        uint256 currentEpoch = rewardsManager.currentEpoch(); 
+        epochEnd = currentUpcomingEpoch; 
 
         if (epochStart > epochEnd) {
             // Swap them if start is less than end
@@ -66,6 +69,8 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
         }
         return (epochStart, epochEnd);
     }
+
+    //NOTE length arrays of epochs, users, tokens and vault
 
     function _generateClaimInput(uint256 length)
         internal

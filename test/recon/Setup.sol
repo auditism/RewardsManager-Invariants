@@ -30,7 +30,8 @@ abstract contract Setup is BaseSetup {
     uint256 timestamp;
 
     //EPOCHS in Use
-    uint256 currentEpochStart; // NOTE epochStart <= epochEnd < currentEpoch | only used once, is it necessary it to have as state v?
+    uint256 currentEpochStart; // NOTE epochStart <= epochEnd < currentEpoch | only used 3 times, is it necessary it to have as state v?
+    //update : tried to remove it but it made things uglier so we gon keep it
     uint256 currentEpochEnd; // NOTE epochEnd < currentEpoch
     uint256 currentUpcomingEpoch; // NOTE currentUpcomingEpoch >= currentEpoch
 

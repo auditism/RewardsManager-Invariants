@@ -18,11 +18,11 @@ abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, S
         rewardsManager_notifyTransfer(currentUser, users[amt % users.length], amt);
     }
 
-    function rewardsManager_clamped_notifyTransferDeposit(uint256 amt) public {
+    function rewardsManager_clamped_notifyTransfer_Deposit(uint256 amt) public {
         rewardsManager_notifyTransfer(address(0), currentUser, amt);
     }
 
-    function rewardsManager_clamped_notifyTransferWithdraw(uint256 amt) public {
+    function rewardsManager_clamped_notifyTransfer_Withdraw(uint256 amt) public {
         rewardsManager_notifyTransfer(currentUser, address(0), amt);
     }
 
@@ -34,7 +34,7 @@ abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, S
     function rewardsManager_clamped_addBulkRewards(uint256 epochStart) public {
         (uint256 epochStart, uint256 epochEnd) = _return_upcoming_EpochStartEnd(epochStart);
         uint256 totalEpochs = (epochEnd - epochStart) + 1;
-        uint256[] memory amounts = generateAmounts(totalEpochs); //NOTE max (1000-1) eth
+        uint256[] memory amounts = _generateAmounts(totalEpochs); //NOTE max (1000-1) eth
 
         rewardsManager_addBulkRewards(epochStart, epochEnd, amounts);
     }
@@ -44,12 +44,4 @@ abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, S
 
         rewardsManager_addBulkRewardsLinearly(epochStart, epochEnd, total);
     }
-
-    // function rewardsManager_getVaultNextEpochInfo() public {
-    //     //ended epochs
-    //     RewardsManager.UserInfo memory info = rewardsManager.getUserNextEpochInfo(currentEpochEnd, currentVault, currentUser, 0);
-    //     uint256 uETP = info.userEpochTotalPoints;
-    //     t(uETP == 0, 'QnD canary');
-
-    // }
 }

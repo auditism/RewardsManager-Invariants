@@ -25,7 +25,7 @@ contract CryticToFoundry is Test, TargetFunctions, FoundryAsserts {
         switch_token(0);
         mintTokens(1000e18);
         rewardsManager_clamped_addReward(10e18);
-        rewardsManager_clamped_notifyTransferDeposit(1e18);
+        rewardsManager_clamped_notifyTransfer_Deposit(1e18);
 
         pushEpoch();
         pushEpoch();
@@ -33,11 +33,9 @@ contract CryticToFoundry is Test, TargetFunctions, FoundryAsserts {
 
         switch_epochs(1, 50, 33);
 
-        RewardsManager.OptimizedClaimParams memory parameter = return_OptimizedClaimParams();
+        RewardsManager.OptimizedClaimParams memory parameter = _return_OptimizedClaimParams();
         rewardsManager.tear(parameter);
     }
 
-    function test_stuff() public {
-        rewardsManager_macro_tear();
-    }
+
 }

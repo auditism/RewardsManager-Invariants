@@ -35,6 +35,11 @@ abstract contract UCT_addRewards_accrue is BaseTargetFunctions, Properties {
 
     //ADD REWARDS
 
+        
+    function rewardsManager_claimRewards(uint256[] memory epochsToClaim, address[] memory vaultList, address[] memory tokenList, address[] memory userList) public {
+        rewardsManager.claimRewards(epochsToClaim, vaultList, tokenList, userList);
+    }
+
     function rewardsManager_addReward(uint256 epochId, uint256 amount) public {
         rewardsManager.addReward(epochId, currentVault, currentToken, amount); //NOTE Epoch must be bigger
     }

@@ -11,7 +11,6 @@ import {TargetHelper} from "./TargetHelper.sol";
 import {console} from "forge-std/console.sol";
 
 abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
-    //probably need a function to warp time with the fuzza block.timestap + amount
 
     function pushEpoch() public {
         //NOTE is this necessary ?
@@ -20,9 +19,9 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
             timestamp += (604800); //NOTE  epoch
             vm.warp(timestamp);
 
-            //  should also call switchepochs
+            //  should also call switchepochs ?
         }
-        // switch_epochs();
+
     }
 
     function switch_vault(uint256 index) public {

@@ -38,12 +38,12 @@ abstract contract CT_claim is UCT_Claim {
     }
 
     function rewardsManager_clamped_reap() public {
-        RewardsManager.OptimizedClaimParams memory parameters = return_OptimizedClaimParams();
+        RewardsManager.OptimizedClaimParams memory parameters = _return_OptimizedClaimParams();
         rewardsManager_reap(parameters);
     }
 
     function rewardsManager_clamped_tear() public {
-        RewardsManager.OptimizedClaimParams memory parameters = return_OptimizedClaimParams();
+        RewardsManager.OptimizedClaimParams memory parameters = _return_OptimizedClaimParams();
         rewardsManager_tear(parameters);
     }
 }

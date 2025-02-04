@@ -7,10 +7,12 @@ import {RewardsManager} from "src/RewardsManager.sol";
 import {console} from "forge-std/console.sol";
 
 abstract contract TargetHelper is BaseTargetFunctions, Properties {
-    function upToThisEpoch(uint256 epoch) internal returns (uint256) {
-        return epoch % rewardsManager.currentEpoch() + 1;
-    } // where do I use this ? 
 
+    // function upToThisEpoch(uint256 epoch) internal returns (uint256) {
+    //     return epoch % rewardsManager.currentEpoch() + 1;
+    // } // where do I use this ? 
+
+    // NOTE returns epoch < currentEpoch
     function _endedEpochs(uint256 epoch) internal returns (uint256) {
         return epoch % rewardsManager.currentEpoch();
     }
@@ -38,14 +40,14 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
     //NOTE returns epochStart <= epochEnd < currentEpoch
     function _return_epoch_start_end(uint256 epochEnd, uint256 epochStart) internal returns (uint256, uint256) {
         epochEnd = _endedEpochs(epochEnd);
-        epochStart %= epochEnd + 1;
-        return (epochEnd, epochStart);
+        epochStart %= epochEnd + 1; 
+        return (epochEnd, epochStart); 
     }
 
     function _return_OptimizedClaimParams() public returns (RewardsManager.OptimizedClaimParams memory parameter) {
-        _getCurrentEpochStart();
+        
         parameter = RewardsManager.OptimizedClaimParams({
-            epochStart: _getCurrentEpochStart(),
+            epochStart: currentEpochStart,
             epochEnd: currentEpochEnd,
             vault: currentVault,
             tokens: tokens
@@ -53,10 +55,12 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
         return parameter;
     }
 
-    //NOTE return currentEpoch >= epochStart >= epochEnd
+    //NOTE return currentEpoch <= epochStart <= epochEnd
+
     function _return_upcoming_EpochStartEnd(uint256 epochStart) internal returns (uint256, uint256 epochEnd) {
-        uint256 currentEpoch = rewardsManager.currentEpoch(); 
-        epochEnd = currentUpcomingEpoch; 
+        uint256 currentEpoch = rewardsManager.currentEpoch(); // 4
+        epochEnd = currentUpcomingEpoch; // 5
+            // epochStart = 6; // 6
 
         if (epochStart > epochEnd) {
             // Swap them if start is less than end
@@ -70,8 +74,7 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
         return (epochStart, epochEnd);
     }
 
-    //NOTE length arrays of epochs, users, tokens and vault
-
+    // NOTE length arrays with epochs, users, tokens, vaults.
     function _generateClaimInput(uint256 length)
         internal
         returns (

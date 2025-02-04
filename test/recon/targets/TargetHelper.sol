@@ -8,10 +8,6 @@ import {console} from "forge-std/console.sol";
 
 abstract contract TargetHelper is BaseTargetFunctions, Properties {
 
-    // function upToThisEpoch(uint256 epoch) internal returns (uint256) {
-    //     return epoch % rewardsManager.currentEpoch() + 1;
-    // } // where do I use this ? 
-
     // NOTE returns epoch < currentEpoch
     function _endedEpochs(uint256 epoch) internal returns (uint256) {
         return epoch % rewardsManager.currentEpoch();
@@ -43,7 +39,7 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
         epochStart %= epochEnd + 1; 
         return (epochEnd, epochStart); 
     }
-
+    //NOTE returns struct
     function _return_OptimizedClaimParams() public returns (RewardsManager.OptimizedClaimParams memory parameter) {
         
         parameter = RewardsManager.OptimizedClaimParams({
@@ -58,9 +54,9 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
     //NOTE return currentEpoch <= epochStart <= epochEnd
 
     function _return_upcoming_EpochStartEnd(uint256 epochStart) internal returns (uint256, uint256 epochEnd) {
-        uint256 currentEpoch = rewardsManager.currentEpoch(); // 4
-        epochEnd = currentUpcomingEpoch; // 5
-            // epochStart = 6; // 6
+        uint256 currentEpoch = rewardsManager.currentEpoch();
+        epochEnd = currentUpcomingEpoch; 
+            
 
         if (epochStart > epochEnd) {
             // Swap them if start is less than end

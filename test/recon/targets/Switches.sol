@@ -18,8 +18,6 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
             //@NOTE 100 years
             timestamp += (604800); //NOTE  epoch
             vm.warp(timestamp);
-
-            //  should also call switchepochs ?
         }
 
     }

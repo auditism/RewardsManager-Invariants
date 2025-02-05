@@ -23,20 +23,22 @@ abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, S
         rewardsManager_notifyTransfer(currentUser, address(0), amt);
     }
 
-    // Add Rewards
+    // Add Rewards //
     function rewardsManager_clamped_addReward(uint256 amt) public {
+        amt = _clamp_rewards_sent(amt);
         rewardsManager_addReward(currentUpcomingEpoch, amt);
     }
 
     function rewardsManager_clamped_addBulkRewards(uint256 epochStart) public {
         (uint256 epochStart, uint256 epochEnd) = _return_upcoming_EpochStartEnd(epochStart);
         uint256 totalEpochs = (epochEnd - epochStart) + 1;
-        uint256[] memory amounts = _generateAmounts(totalEpochs); //NOTE max (1000-1) eth
+        uint256[] memory amounts = _generateAmounts(totalEpochs); //NOTE max (1000-1) eth per epoch
 
         rewardsManager_addBulkRewards(epochStart, epochEnd, amounts);
     }
 
     function rewardsManager_clamped_addBulkRewardsLinearly(uint256 epochStart, uint256 total) public {
+        total = _clamp_rewards_sent(total);
         (uint256 epochStart, uint256 epochEnd) = _return_upcoming_EpochStartEnd(epochStart);
 
         rewardsManager_addBulkRewardsLinearly(epochStart, epochEnd, total);

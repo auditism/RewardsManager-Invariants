@@ -5,21 +5,22 @@ import {BaseTargetFunctions} from "@chimera/BaseTargetFunctions.sol";
 import {Properties} from "../Properties.sol";
 import {RewardsManager} from "src/RewardsManager.sol";
 import {console} from "forge-std/console.sol";
+import {IMint} from "../mocks/IMint.sol";
 
 abstract contract TargetHelper is BaseTargetFunctions, Properties {
-
     // NOTE returns epoch < currentEpoch
     function _endedEpochs(uint256 epoch) internal returns (uint256) {
         return epoch % rewardsManager.currentEpoch();
     }
     //NOTE returns upcommingEpoch >= Epoch
+
     function _return_upcomingEpoch(uint256 epoch) internal returns (uint256) {
         epoch = epoch % 5000;
         uint256 currentEpoch = rewardsManager.currentEpoch();
         if (epoch < currentEpoch) {
             return epoch + currentEpoch;
         } else {
-            return epoch; 
+            return epoch;
         }
     }
 
@@ -36,12 +37,12 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
     //NOTE returns epochStart <= epochEnd < currentEpoch
     function _return_epoch_start_end(uint256 epochEnd, uint256 epochStart) internal returns (uint256, uint256) {
         epochEnd = _endedEpochs(epochEnd);
-        epochStart %= epochEnd + 1; 
-        return (epochEnd, epochStart); 
+        epochStart %= epochEnd + 1;
+        return (epochEnd, epochStart);
     }
     //NOTE returns struct
+
     function _return_OptimizedClaimParams() public returns (RewardsManager.OptimizedClaimParams memory parameter) {
-        
         parameter = RewardsManager.OptimizedClaimParams({
             epochStart: currentEpochStart,
             epochEnd: currentEpochEnd,
@@ -55,8 +56,7 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
 
     function _return_upcoming_EpochStartEnd(uint256 epochStart) internal returns (uint256, uint256 epochEnd) {
         uint256 currentEpoch = rewardsManager.currentEpoch();
-        epochEnd = currentUpcomingEpoch; 
-            
+        epochEnd = currentUpcomingEpoch;
 
         if (epochStart > epochEnd) {
             // Swap them if start is less than end
@@ -68,6 +68,11 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
             epochStart = currentEpoch;
         }
         return (epochStart, epochEnd);
+    }
+
+    function _clamp_rewards_sent(uint256 amt) internal returns (uint256) {
+        uint256 balance = IMint(currentToken).balanceOf(address(this));
+        return amt %= balance + 1;
     }
 
     // NOTE length arrays with epochs, users, tokens, vaults.

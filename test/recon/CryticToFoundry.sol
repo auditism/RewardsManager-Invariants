@@ -36,6 +36,4 @@ contract CryticToFoundry is Test, TargetFunctions, FoundryAsserts {
         RewardsManager.OptimizedClaimParams memory parameter = _return_OptimizedClaimParams();
         rewardsManager.tear(parameter);
     }
-
-
 }

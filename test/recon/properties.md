@@ -19,7 +19,7 @@
     
     --------------
 
-    ## inline property: rewards assigned/epoch for an epoch should be 100% claimable 
+    ## inline property: rewards assigned/epoch for an epoch should be 100% claimable  ??? should they 
 
     --------------
 

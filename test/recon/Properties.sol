@@ -5,5 +5,7 @@ import {Asserts} from "@chimera/Asserts.sol";
 import {BeforeAfter} from "./BeforeAfter.sol";
 
 abstract contract Properties is BeforeAfter, Asserts {
-    
+    function property__invariant() public {
+        uint256 totalPoints = rewardsManager.totalPoints(currentEpochEnd, currentVaul);
+    }
 }

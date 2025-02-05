@@ -11,7 +11,7 @@ import {TargetHelper} from "./TargetHelper.sol";
 import {console} from "forge-std/console.sol";
 
 abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
-
+    //We don't need the fuzzer to add values to the dictionary
     function pushEpoch() public {
         //NOTE is this necessary ?
         if (timestamp < 3.156e9) {
@@ -19,7 +19,15 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
             timestamp += (604800); //NOTE  epoch
             vm.warp(timestamp);
         }
+        //Could make it the current epoch
+    }
 
+    function pushVault(uint256 identification) public {
+        vaults.push(address(identification));
+    }
+
+    function pushToken(uint256 index) public {
+        
     }
 
     function switch_vault(uint256 index) public {

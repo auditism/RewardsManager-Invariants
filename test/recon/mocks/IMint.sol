@@ -8,4 +8,5 @@ pragma solidity ^0.8.20;
 interface IMint {
     function mint(address receiver, uint256 amt) external;
     function approve(address receiver, uint256 amt) external;
+    function balanceOf(address account) external view returns (uint256);
 }

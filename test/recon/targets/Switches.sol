@@ -22,12 +22,12 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
         //Could make it the current epoch
     }
 
-    function pushVault(uint256 identification) public {
-        vaults.push(address(identification));
+    function pushVault(address identification) public {
+        vaults.push(identification);
     }
 
     function pushToken(uint256 index) public {
-        
+
     }
 
     function switch_vault(uint256 index) public {

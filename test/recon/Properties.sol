@@ -10,6 +10,6 @@ abstract contract Properties is BeforeAfter, Asserts {
         uint256 rewardsBalance = IMint(currentToken).balanceOf(address(rewardsManager));
         t(rewardsBalance >= rewards, 'Rewards balance should always be >= reward');
         //NOTE  this could fail but who knows after how long, it would be better to track all 
-        // the actual claimable rewards and the balance of the contract..
+        // the actual claimable rewards accross all vaults and all epochs
     }
 }

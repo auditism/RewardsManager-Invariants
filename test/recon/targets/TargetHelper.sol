@@ -97,13 +97,13 @@ abstract contract TargetHelper is BaseTargetFunctions, Properties {
         for (uint256 i = 0; i < length; i++) {
             epochs[i] = uint256(keccak256(abi.encode(seed, i))) % currentEpoch;
 
-            uint256 userIndex = uint256(keccak256(abi.encode(seed, i))) % 4;
+            uint256 userIndex = uint256(keccak256(abi.encode(seed, i))) % users.length;
             selectedUsers[i] = users[userIndex];
 
-            uint256 tokenIndex = uint256(keccak256(abi.encode(seed, i))) % 6;
+            uint256 tokenIndex = uint256(keccak256(abi.encode(seed, i))) % tokens.length;
             claimTokens[i] = tokens[tokenIndex];
 
-            uint256 vaultIndex = uint256(keccak256(abi.encode(seed, i))) % 4;
+            uint256 vaultIndex = uint256(keccak256(abi.encode(seed, i))) % vaults.length;
             claimVault[i] = vaults[vaultIndex];
         }
     }

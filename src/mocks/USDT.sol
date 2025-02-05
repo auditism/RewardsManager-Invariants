@@ -44,4 +44,17 @@ abstract contract TetherToken is ERC20, Ownable {
     function nonces(address owner) public view returns (uint256) {
         return _nonces[owner];
     }
+
+        function approve(address _spender, uint _value) override {
+
+        // To change the approve amount you first have to reduce the addresses`
+        //  allowance to zero by calling `approve(_spender, 0)` if it is not
+        //  already 0 to mitigate the race condition described here:
+        //  https://github.com/ethereum/EIPs/issues/20#issuecomment-263524729
+        uint256 allowanced = allowance(msg.sender, _spender);
+        require(!((_value != 0) && (allowanced != 0)), 'value 0 or allowance ! 0');
+
+        allowed[msg.sender][_spender] = _value;
+        Approval(msg.sender, _spender, _value);
+    }
 }

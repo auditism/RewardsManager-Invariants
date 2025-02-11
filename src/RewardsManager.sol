@@ -257,7 +257,7 @@ contract RewardsManager is ReentrancyGuard {
             totalSupply[epochId][vault] = supply;
         }
 
-        uint256 timeLeftToAccrue = _getVaultTimeLeftToAccrue(epochId, vault);
+        uint256 timeLeftToAccrue = _getVaultTimeLeftToAccrue(epochId, vault); //@note max is epoch secs
 
         // Prob expired, may as well return early
         if (timeLeftToAccrue == 0) {
@@ -384,12 +384,12 @@ contract RewardsManager is ReentrancyGuard {
     /// @param vault - address under which you want to accrue
     /// @param user - address you want to accrue
     function accrueUser(uint256 epochId, address vault, address user) public {
-        require(epochId <= currentEpoch(), "only ended epochs");
+        require(epochId <= currentEpoch(), "only ended epochs"); //@note can be current epoch
 
         (uint256 currentBalance, bool shouldUpdate) = _getBalanceAtEpoch(epochId, vault, user);
 
         if (shouldUpdate) {
-            shares[epochId][vault][user] = currentBalance;
+            shares[epochId][vault][user] = currentBalance; //@note updates shares to
         }
 
         // Optimization:  No balance, return early
@@ -399,7 +399,7 @@ contract RewardsManager is ReentrancyGuard {
             return;
         }
 
-        uint256 timeLeftToAccrue = _getUserTimeLeftToAccrue(epochId, vault, user);
+        uint256 timeLeftToAccrue = _getUserTimeLeftToAccrue(epochId, vault, user); 
 
         // Optimization: time is 0, end early
         if (timeLeftToAccrue == 0) {
@@ -439,6 +439,7 @@ contract RewardsManager is ReentrancyGuard {
 
         // If for some reason we are trying to accrue a position already accrued after end of epoch, return 0
         if (lastBalanceChangeTime >= epochData.endTimestamp) {
+            //@note within its epoch
             return 0;
         }
 
@@ -502,6 +503,7 @@ contract RewardsManager is ReentrancyGuard {
             // we don't have a guarantee of when it starts
 
             if (lastUserAccrueTimestamp[i][vault][user] != 0) {
+                //@note loop through epochs
                 lastBalanceChangeEpoch = i;
                 break; // Found it
             }
@@ -518,11 +520,11 @@ contract RewardsManager is ReentrancyGuard {
         }
 
         // We found the last known balance given lastUserAccrueTimestamp
-        // Can still be zero
+        // Can still be zero @note ?
         uint256 lastKnownBalance = shares[lastBalanceChangeEpoch][vault][user];
 
         return (lastKnownBalance, true); // We should update the balance
-    }
+    } //@note loops if epoch is accurate, returns false, if not, and had to loop through epochs returns true
 
     /// === REWARD CLAIMING === ///
 
@@ -616,7 +618,7 @@ contract RewardsManager is ReentrancyGuard {
     /// @param vault - Which vault are you claiming
     /// @param token - Which token reward to claim
     /// @param user - Who to claim for
-    function claimRewardEmitting(uint256 epochId, address vault, address token, address user) public {
+    function claimRewardEmitting(uint256 epochId, address vault, address token, address user) public { //@note this one is hard to verify
         require(epochId < currentEpoch(), "only ended epochs");
 
         (uint256 userBalanceAtEpochId,) = _getBalanceAtEpoch(epochId, vault, user);
@@ -630,7 +632,7 @@ contract RewardsManager is ReentrancyGuard {
         }
 
         (uint256 vaultSupplyAtEpochId,) = _getTotalSupplyAtEpoch(epochId, vault);
-        (uint256 startingContractBalance,) = _getBalanceAtEpoch(epochId, vault, address(this));
+        (uint256 startingContractBalance,) = _getBalanceAtEpoch(epochId, vault, address(this)); //@note why contract
 
         VaultInfo memory vaultInfo = _getVaultNextEpochInfo(epochId, vault, vaultSupplyAtEpochId);
         UserInfo memory thisContractInfo = _getUserNextEpochInfo(epochId, vault, address(this), startingContractBalance);
@@ -1056,7 +1058,7 @@ contract RewardsManager is ReentrancyGuard {
             Epoch memory epochData = getEpochData(epochId);
 
             // Already accrued after epoch end
-            if (lastBalanceChangeTime >= epochData.endTimestamp) {
+            if (lastBalanceChangeTime >= epochData.endTimestamp) {  
                 // timeLeftToAccrue = 0; // No need to set
             } else {
                 unchecked {

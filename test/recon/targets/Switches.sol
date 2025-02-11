@@ -26,9 +26,7 @@ abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
         vaults.push(identification);
     }
 
-    function pushToken(uint256 index) public {
-
-    }
+    function pushToken(uint256 index) public {}
 
     function switch_vault(uint256 index) public {
         currentVault = vaults[index % vaults.length];

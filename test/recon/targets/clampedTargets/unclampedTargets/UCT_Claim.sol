@@ -13,7 +13,7 @@ abstract contract UCT_Claim is BaseTargetFunctions, Properties, TargetHelper {
         rewardsManager.claimReward(epochId, currentVault, currentToken, currentUser);
     }
 
-    function rewardsManager_claimBulkTokensOverMultipleEpochs(uint256 epochStart, uint256 epochEnd) public {
+    function rewardsManager_claimBulkTokensOverMultipleEpochs(uint256 epochStart, uint256 epochEnd) public tracking {
         rewardsManager.claimBulkTokensOverMultipleEpochs(epochStart, epochEnd, currentVault, tokens, currentUser);
     }
 
@@ -21,7 +21,7 @@ abstract contract UCT_Claim is BaseTargetFunctions, Properties, TargetHelper {
         rewardsManager.claimRewardEmitting(epochId, currentVault, currentToken, currentUser);
     }
 
-    function rewardsManager_claimRewardReferenceEmitting(uint256 epochId) public {
+    function rewardsManager_claimRewardReferenceEmitting(uint256 epochId) public tracking { 
         rewardsManager.claimRewardReferenceEmitting(epochId, currentVault, currentToken, currentUser);
     }
 

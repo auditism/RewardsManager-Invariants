@@ -35,7 +35,7 @@ abstract contract TetherToken is ERC20, Ownable {
         return _nonces[owner];
     }
 
-    //NOTE should only be used when there is approve in the targeted codebase, 
+    //NOTE should only be used when there is approve in the targeted codebase,
     // function approve(address _spender, uint _value) override {
     //     uint256 allowanced = allowance(msg.sender, _spender);
     //     require(!((_value != 0) && (allowanced != 0)), 'value 0 or allowance ! 0');

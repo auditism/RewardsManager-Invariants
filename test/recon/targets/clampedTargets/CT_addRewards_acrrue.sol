@@ -3,10 +3,10 @@ pragma solidity ^0.8.0;
 
 import {BaseTargetFunctions} from "@chimera/BaseTargetFunctions.sol";
 import {RewardsManager} from "src/RewardsManager.sol";
-import {vm} from "@chimera/Hevm.sol";
+import {Switches} from "../Switches.sol";
 import {TargetHelper} from "../TargetHelper.sol";
 import {UCT_addRewards_accrue} from "./unclampedTargets/UCT_addRewards_accrue.sol";
-import {Switches} from "../Switches.sol";
+import {vm} from "@chimera/Hevm.sol";
 
 abstract contract CT_addRewards_acrrue is UCT_addRewards_accrue, TargetHelper, Switches {
     //NOTE add state var for epochs

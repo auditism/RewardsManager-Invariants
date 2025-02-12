@@ -2,13 +2,13 @@
 pragma solidity ^0.8.0;
 
 import {BaseSetup} from "@chimera/BaseSetup.sol";
-import {RewardsManager} from "src/RewardsManager.sol";
-import {OZ} from "./mocks/OZ.sol";
 import {FoT} from "./mocks/FoT.sol";
+import {OZ} from "./mocks/OZ.sol";
+import {RewardsManager} from "src/RewardsManager.sol";
 import {Solady} from "./mocks/Solady.sol";
 import {Solmate} from "./mocks/Solmate.sol";
-import {USDT} from "./mocks/USDT.sol";
 import {stETH} from "./mocks/stETH.sol";
+import {USDT} from "./mocks/USDT.sol";
 import {vm} from "@chimera/Hevm.sol";
 
 abstract contract Setup is BaseSetup {

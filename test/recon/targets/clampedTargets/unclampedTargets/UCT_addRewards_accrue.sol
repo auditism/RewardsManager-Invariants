@@ -2,11 +2,10 @@
 pragma solidity ^0.8.0;
 
 import {BaseTargetFunctions} from "@chimera/BaseTargetFunctions.sol";
-import {RewardsManager} from "src/RewardsManager.sol";
-// import {BeforeAfter} from "../BeforeAfter.sol";
 import {Properties} from "../../../Properties.sol";
-import {vm} from "@chimera/Hevm.sol";
+import {RewardsManager} from "src/RewardsManager.sol";
 import {TargetHelper} from "../../TargetHelper.sol";
+import {vm} from "@chimera/Hevm.sol";
 
 abstract contract UCT_addRewards_accrue is BaseTargetFunctions, Properties {
     function rewardsManager_notifyTransfer(address from, address to, uint256 amount) public onlyVault {

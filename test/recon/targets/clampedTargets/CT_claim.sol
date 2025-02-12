@@ -3,9 +3,9 @@ pragma solidity ^0.8.0;
 
 import {BaseTargetFunctions} from "@chimera/BaseTargetFunctions.sol";
 import {RewardsManager} from "src/RewardsManager.sol";
-import {vm} from "@chimera/Hevm.sol";
 import {TargetHelper} from "../TargetHelper.sol";
 import {UCT_Claim} from "./unclampedTargets/UCT_Claim.sol";
+import {vm} from "@chimera/Hevm.sol";
 
 abstract contract CT_claim is UCT_Claim {
     function rewardsManager_clamped_claimReward() public {

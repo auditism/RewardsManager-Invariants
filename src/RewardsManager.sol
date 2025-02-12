@@ -399,7 +399,7 @@ contract RewardsManager is ReentrancyGuard {
             return;
         }
 
-        uint256 timeLeftToAccrue = _getUserTimeLeftToAccrue(epochId, vault, user); 
+        uint256 timeLeftToAccrue = _getUserTimeLeftToAccrue(epochId, vault, user);
 
         // Optimization: time is 0, end early
         if (timeLeftToAccrue == 0) {
@@ -618,7 +618,8 @@ contract RewardsManager is ReentrancyGuard {
     /// @param vault - Which vault are you claiming
     /// @param token - Which token reward to claim
     /// @param user - Who to claim for
-    function claimRewardEmitting(uint256 epochId, address vault, address token, address user) public { //@note this one is hard to verify
+    function claimRewardEmitting(uint256 epochId, address vault, address token, address user) public {
+        //@note this one is hard to verify
         require(epochId < currentEpoch(), "only ended epochs");
 
         (uint256 userBalanceAtEpochId,) = _getBalanceAtEpoch(epochId, vault, user);
@@ -1058,7 +1059,7 @@ contract RewardsManager is ReentrancyGuard {
             Epoch memory epochData = getEpochData(epochId);
 
             // Already accrued after epoch end
-            if (lastBalanceChangeTime >= epochData.endTimestamp) {  
+            if (lastBalanceChangeTime >= epochData.endTimestamp) {
                 // timeLeftToAccrue = 0; // No need to set
             } else {
                 unchecked {
@@ -1264,7 +1265,8 @@ contract RewardsManager is ReentrancyGuard {
         unchecked {
             // Delete the points for that epoch so nothing more to claim
             // This may be zero and may have already been deleted
-            delete points[params.epochEnd][params.vault][user];
+            delete points[params.epochEnd][params.vault][user]; //@note shouldn't be an issue since only past periods
+            //however this is already deleted I think
 
             // Because we set the accrue timestamp to end of the epoch
             // Must set this so user can't claim and their balance here is non-zero / last known
@@ -1272,10 +1274,10 @@ contract RewardsManager is ReentrancyGuard {
 
             // And we delete the initial balance meaning they have no balance left
             delete shares[params.epochStart][params.vault][user];
-            lastUserAccrueTimestamp[params.epochStart][params.vault][user] = block.timestamp;
+            lastUserAccrueTimestamp[params.epochStart][params.vault][user] = block.timestamp; //@note accrue vault but only on epochEnd
 
             // Port over shares from last check || NOTE: Port over last to mitigate QSP-2
-            shares[params.epochEnd][params.vault][user] = userBalanceAtEpochId;
+            shares[params.epochEnd][params.vault][user] = userBalanceAtEpochId; //@note accrue user
         }
 
         // Go ahead and transfer
@@ -1387,7 +1389,7 @@ contract RewardsManager is ReentrancyGuard {
             lastUserAccrueTimestamp[params.epochEnd][params.vault][user] = block.timestamp;
 
             // And we delete the initial balance meaning they have no balance left
-            delete shares[params.epochStart][params.vault][user];
+            delete shares[params.epochStart][params.vault][user]; //@note are past shares a threat ?
             lastUserAccrueTimestamp[params.epochStart][params.vault][user] = block.timestamp;
 
             // Port over shares from last check || NOTE: Port over last to mitigate QSP-2

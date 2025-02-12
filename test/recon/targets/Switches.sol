@@ -2,24 +2,18 @@
 pragma solidity ^0.8.0;
 
 import {BaseTargetFunctions} from "@chimera/BaseTargetFunctions.sol";
-// import {BeforeAfter} from "./BeforeAfter.sol";
-import {Properties} from "../Properties.sol";
-import {vm} from "@chimera/Hevm.sol";
+import {console} from "forge-std/console.sol";
 import {IMint} from "../mocks/IMint.sol";
 import {IRebasor} from "../mocks/IRebasor.sol";
+import {Properties} from "../Properties.sol";
 import {TargetHelper} from "./TargetHelper.sol";
-import {console} from "forge-std/console.sol";
+import {vm} from "@chimera/Hevm.sol";
 
 abstract contract Switches is BaseTargetFunctions, Properties, TargetHelper {
     //We don't need the fuzzer to add values to the dictionary
     function pushEpoch() public {
-        //NOTE is this necessary ?
-        if (timestamp < 3.156e9) {
-            //@NOTE 100 years
-            timestamp += (604800); //NOTE  epoch
-            vm.warp(timestamp);
-        }
-        //Could make it the current epoch
+        timestamp += (604800); //NOTE  epoch
+        vm.warp(timestamp);
     }
 
     function pushVault(address identification) public {

@@ -2,10 +2,10 @@
 pragma solidity ^0.8.0;
 
 import {BaseTargetFunctions} from "@chimera/BaseTargetFunctions.sol";
-import {Properties} from "../Properties.sol";
-import {RewardsManager} from "src/RewardsManager.sol";
 import {console} from "forge-std/console.sol";
 import {IMint} from "../mocks/IMint.sol";
+import {Properties} from "../Properties.sol";
+import {RewardsManager} from "src/RewardsManager.sol";
 
 abstract contract TargetHelper is BaseTargetFunctions, Properties {
     // NOTE returns epoch < currentEpoch
